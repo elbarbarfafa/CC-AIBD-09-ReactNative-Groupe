@@ -1,3 +1,4 @@
+// Page 1
 import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
