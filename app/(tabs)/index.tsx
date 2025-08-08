@@ -1,32 +1,28 @@
-// Page 1
-import { StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList, ActivityIndicator, Text } from 'react-native';
+import { fetchTrainings } from '../../services/trainingService';
+import FormationItem from '../../components/FormationItem';
+import { Training } from '../../types/training';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function Home() {
+  const [trainings, setTrainings] = useState<Training[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default function TabOneScreen() {
+  useEffect(() => {
+    fetchTrainings()
+      .then(setTrainings)
+      .catch(() => setTrainings([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <ActivityIndicator />;
+  if (!trainings.length) return <Text>Aucune formation trouvée.</Text>;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <FlatList
+      data={trainings}
+      keyExtractor={(item) => item.slug}
+      renderItem={({ item }) => <FormationItem training={item} />}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
