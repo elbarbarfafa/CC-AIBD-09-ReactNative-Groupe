@@ -22,15 +22,24 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: '#94a3b8',
+        headerTitleAlign: 'left',
+        headerTitleStyle: {
+          fontSize: 20,
+          fontWeight: '800',
+          color: Colors[colorScheme ?? 'light'].text,
+        },
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Catalogue de formations Dawan',   // Titre du header
+          tabBarLabel: 'Catalogue',                 // Libellé de l’onglet
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -50,8 +59,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Favoris',
+          tabBarLabel: 'Favoris',
+          tabBarIcon: ({ color }) => <TabBarIcon name="star-o" color={color} />,
         }}
       />
     </Tabs>
